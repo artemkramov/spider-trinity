@@ -14,7 +14,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 /**
- *
+ * Bot for the site ipri.kiev.ua
  * @author admin
  */
 public class BotIpri extends Bot {
@@ -22,23 +22,31 @@ public class BotIpri extends Bot {
     public BotIpri() {
         this.url = "http://ipri.kiev.ua";
     }
-
+    
+    /**
+     * Run bot
+     */
     public void run() {
+        // Get list of all years
         List<String> archiveYears = this.getArchiveList();
         int counter = 1;
         for (String linkYear : archiveYears) {
+            // Get list of articles for each year
             List<String> articleLinks = this.getListOfArticles(linkYear);
             for (String articleLink : articleLinks) {
+                // Get HTML string of the article
                 String html = this.getArticle(articleLink);
                 this.writeArticleToFile(Integer.toString(counter) + ".txt", html);
                 counter++;
-//                if (counter > 6) break;
             }
-//            if (counter > 6) break;
         }
           
     }
-
+    
+    /**
+     * Get list of years
+     * @return 
+     */
     private List<String> getArchiveList() {
         List<String> links = new ArrayList<>();
         String endpoint = "/index.php?id=52";
@@ -50,6 +58,11 @@ public class BotIpri extends Bot {
         return links;
     }
     
+    /**
+     * Get list of articles for the given year
+     * @param endpoint
+     * @return 
+     */
     private List<String> getListOfArticles(String endpoint) {
         List<String> listAtricles = new ArrayList<>();
         Document document = this.getPage(endpoint);
@@ -61,7 +74,6 @@ public class BotIpri extends Bot {
                 listAtricles.add(link.attr("href"));
             }
         }
-        int a = 43;
         return listAtricles;
     }
 

@@ -5,9 +5,6 @@
  */
 package spider;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-
 /**
  *
  * @author admin
@@ -18,9 +15,20 @@ public class Spider {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        BotIpri botIpri = new BotIpri();
-        botIpri.run();
-        
+        Bot bot;
+        int botSwitcher = 2; // 1 - ipri.kiev.ua, 2 - journal.iasa.kpi.ua
+        switch (botSwitcher) {
+            case 1:
+                bot = new BotIpri();
+                break;
+            case 2:
+                bot = new BotIasa();
+                break;
+            default:
+                bot = new BotIpri();
+                break;
+        }
+        bot.run();
     }
-    
+
 }
