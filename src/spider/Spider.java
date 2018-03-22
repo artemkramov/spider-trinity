@@ -16,13 +16,28 @@ public class Spider {
      */
     public static void main(String[] args) {
         Bot bot;
-        int botSwitcher = 2; // 1 - ipri.kiev.ua, 2 - journal.iasa.kpi.ua
+        int botSwitcher = 7; // 1 - ipri.kiev.ua, 2 - journal.iasa.kpi.ua
         switch (botSwitcher) {
             case 1:
                 bot = new BotIpri();
                 break;
             case 2:
                 bot = new BotIasa();
+                break;
+            case 3:
+                bot = new BotInfotelesc();
+                break;
+            case 4:
+                bot = new BotBulletinEconom();
+                break;
+            case 5:
+                bot = new BotVisnykGeo();
+                break;
+            case 6:
+                bot = new BotAstroBulletin();
+                break;
+            case 7:
+                bot = new BotVisnykSoc();
                 break;
             default:
                 bot = new BotIpri();

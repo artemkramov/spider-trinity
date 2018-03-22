@@ -61,9 +61,13 @@ public class Bot {
      */
     protected String getArticle(String endpoint) {
         Document document = this.getPage(endpoint);
-        Element bodyElement = document.select("body").first();
-        // Clean HTML from the whitespaces
-        String html = Jsoup.clean(bodyElement.toString(), Whitelist.relaxed()).replaceAll("\r", "").replaceAll("\n", "").replaceAll(">\\s+<", "><").replaceAll(">\\s+", ">").replaceAll("\\s+<", "<");
+        String html = "";
+        try {
+            Element bodyElement = document.select("body").first();
+            // Clean HTML from the whitespaces
+            html = Jsoup.clean(bodyElement.toString(), Whitelist.relaxed()).replaceAll("\r", "").replaceAll("\n", "").replaceAll(">\\s+<", "><").replaceAll(">\\s+", ">").replaceAll("\\s+<", "<");
+        }
+        catch (Exception ex) {}
         return html;
     }
     
@@ -84,11 +88,13 @@ public class Bot {
         }
         String filePath = folderPath + "/input/" + fileName;
         try {
-            FileOutputStream fileStream = new FileOutputStream(new File(filePath));
-            OutputStreamWriter writer = new OutputStreamWriter(fileStream, StandardCharsets.UTF_8);
-            writer.write("\uFEFF");
-            writer.write(articleString);
-            writer.flush();
+            if (!articleString.isEmpty()) {
+                FileOutputStream fileStream = new FileOutputStream(new File(filePath));
+                OutputStreamWriter writer = new OutputStreamWriter(fileStream, StandardCharsets.UTF_8);
+                writer.write("\uFEFF");
+                writer.write(articleString);
+                writer.flush();
+            }
         } catch (IOException ex) {
             this.log(ex.getMessage());
         }
